@@ -1,0 +1,41 @@
+{
+  "name": "gpt-image-by-ace",
+  "version": "0.1.0",
+  "description": "GPT Image image generation and same-task results in Kimi Code, provided by Ace Data Cloud.",
+  "keywords": [
+    "gpt image",
+    "gpt-image",
+    "image",
+    "image generation",
+    "kimi-code",
+    "acedatacloud"
+  ],
+  "author": {
+    "name": "Ace Data Cloud",
+    "email": "dev@acedata.cloud"
+  },
+  "homepage": "https://github.com/AceDataCloud/GPTImageKimiCode",
+  "license": "MIT",
+  "skills": "./skills/",
+  "commands": "./commands/",
+  "mcpServers": {
+    "gpt-image": {
+      "transport": "http",
+      "url": "https://openai.mcp.acedata.cloud/mcp",
+      "bearerTokenEnvVar": "ACEDATACLOUD_API_TOKEN",
+      "enabledTools": [
+        "openai_list_image_models",
+        "openai_generate_image",
+        "openai_edit_image",
+        "openai_get_task"
+      ]
+    }
+  },
+  "interface": {
+    "displayName": "GPT Image by Ace Data Cloud",
+    "shortDescription": "GPT Image image tools and same-task results",
+    "longDescription": "Independent GPT Image integration maintained by Ace Data Cloud. Bring your own Ace API Token. Generation and editing may incur charges; query an existing task without resubmitting it. Not an official GPT Image or Moonshot integration.",
+    "developerName": "Ace Data Cloud",
+    "websiteURL": "https://platform.acedata.cloud/console/applications?utm_source=github&utm_medium=referral&utm_campaign=evergreen&utm_content=gpt_image_kimi_readme_key"
+  }
+}
