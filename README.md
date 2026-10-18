@@ -4,7 +4,7 @@
 
 A standalone **GPT Image** plugin for Kimi Code’s native plugin manager. Install only this service, use your own Ace API Token, and retrieve the exact same task until its final result is ready. Maintained by **Ace Data Cloud**, not an official GPT Image or Moonshot product. It does not replace your chat model.
 
-[简体中文](readme/README_zh_Hans.md) · [Current pricing](https://platform.acedata.cloud/models?utm_source=github&utm_medium=referral&utm_campaign=evergreen&utm_content=gpt_image_kimi_readme_pricing) · [Service documentation](https://platform.acedata.cloud/documents/openai-images?utm_source=github&utm_medium=referral&utm_campaign=evergreen&utm_content=gpt_image_kimi_readme_docs)
+[简体中文](readme/README_zh_Hans.md) · [Current pricing](https://platform.acedata.cloud/models?utm_source=github&utm_medium=referral&utm_campaign=evergreen&utm_content=gpt_image_kimi_readme_pricing) · [Service documentation](https://platform.acedata.cloud/documents/openai-images-generations?utm_source=github&utm_medium=referral&utm_campaign=evergreen&utm_content=gpt_image_kimi_readme_docs)
 
 ## 1. Install in Kimi Code
 
