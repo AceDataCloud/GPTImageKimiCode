@@ -8,13 +8,13 @@ A standalone **GPT Image** plugin for Kimi Code’s native plugin manager. Insta
 
 ## 1. Install in Kimi Code
 
-Requires Kimi Code 2.2.0 or newer. In Kimi’s terminal interface:
+Requires Kimi Code 2.2.0 or newer, Python 3.10+ and [uv](https://docs.astral.sh/uv/getting-started/installation/) (`uvx` on PATH). In Kimi’s terminal interface:
 
 ```text
-/plugins install https://github.com/AceDataCloud/GPTImageKimiCode/tree/codex/native-kimi-plugin-20261018
+/plugins install https://github.com/AceDataCloud/GPTImageKimiCode/releases/tag/v0.1.0
 ```
 
-This is a review-branch install, not an official marketplace listing or stable release. Inspect the source and Kimi’s third-party trust prompt before selecting **Trust and install**. Installation copies this plugin into your user plugin directory. Keep existing plugins; do not replace global configuration. Once a reviewed release exists, use its pinned tag.
+This installs the pinned **v0.1.0** GitHub release. It is independently distributed by Ace Data Cloud and is not listed in Kimi’s Official or Curated catalog. Inspect the source and Kimi’s third-party trust prompt before selecting **Trust and install**. Installation copies this plugin into your user plugin directory. Keep existing plugins; do not replace global configuration.
 
 Kimi’s [official plugin guide](https://moonshotai.github.io/kimi-code/zh/customization/plugins) describes `/plugins`, **Custom**, installation and `/reload`. The official/curated catalog does not currently list this plugin.
 
@@ -33,7 +33,7 @@ Screenshots are reused from Ace’s existing Dify guide, with secrets redacted. 
 
 ## 3. Make the token available to Kimi
 
-Set `ACEDATACLOUD_API_TOKEN` in the environment of the process that launches `kimi`. The manifest uses Kimi’s supported `bearerTokenEnvVar` field; it does not expand `${...}` in a header or store your key in this repository. Example macOS/Linux session (input is hidden):
+Set `ACEDATACLOUD_API_TOKEN` in the environment of the process that launches `kimi`. Kimi’s native stdio process inherits this variable; the manifest contains no literal key or header interpolation. The package is pinned to `mcp-openai-pro==2026.10.19.2` with `--profile gpt-image`. Example macOS/Linux session (input is hidden):
 
 ```bash
 read -r -s ACEDATACLOUD_API_TOKEN
@@ -50,11 +50,11 @@ kimi
 
 Enter the key when prompted by the hidden input. Never put it in a chat message, screenshot, project `.env`, workflow export or Git. Restart Kimi after changing the process environment, then run `/reload` or `/new`.
 
-The server is `https://openai.mcp.acedata.cloud/mcp`. This plugin uses a Bearer token and does not start an OAuth login. Kimi’s trust prompt is separate from account authorization.
+This is the dedicated **local stdio GPT Image profile**, not the generic hosted OpenAI server. `uvx` installs the pinned package, which calls the Ace API using your inherited token. No OAuth login is started. Kimi’s trust prompt is separate from account authorization.
 
 ## 4. Check and use
 
-Run `/gpt-image-by-ace:check` to call `openai_list_image_models` and inspect available options. This performs no media generation; review account rules for any other usage.
+Run `/gpt-image-by-ace:check` to call `gpt_image_list_models` and inspect available options. This performs no media generation; review account rules for any other usage.
 
 For an existing task:
 
@@ -68,7 +68,7 @@ For a new paid operation, first prepare a request:
 /gpt-image-by-ace:create A minimal watercolor illustration of a small lighthouse at dawn.
 ```
 
-Review the model, fields, price and requested spend before confirming submission. A media service operation and the LLM orchestrating it may both consume credits according to their respective accounts. The request is submitted once; keep the returned `task_id`. Pass the original task_id as id to openai_get_task. A finished_at timestamp is terminal, but still inspect the response for success or failure before showing final image URLs. Filter the image-model list to gpt-image models; do not substitute DALL-E or Nano Banana without the user asking. Use the same ID for later checks. Do not rerun `create` because a result is pending.
+Review the model, fields, price and requested spend before confirming submission. A media service operation and the LLM orchestrating it may both consume credits according to their respective accounts. The request is submitted once; keep the returned `task_id`. Pass the original task_id as id to gpt_image_get_task. A finished_at timestamp is terminal, but still inspect the response for success or failure before showing final image URLs. Filter the image-model list to gpt-image models; do not substitute DALL-E or Nano Banana without the user asking. Use the same ID for later checks. Do not rerun `create` because a result is pending.
 
 No generated-media example in this repository is presented as a completed live run. Local mock checks do not prove real generation, final media retrieval or billing.
 
@@ -80,6 +80,6 @@ No generated-media example in this repository is presented as a completed live r
 - **429:** wait and reduce concurrency.
 - **No media URL:** inspect terminal success/error first; check final returned links separately. Do not invent a result.
 
-The plugin connects to `openai.mcp.acedata.cloud`; service inputs and the Bearer token go to Ace Data Cloud. No credentials are included in the package. It reuses [OpenAIMCP](https://github.com/AceDataCloud/OpenAIMCP) and does not copy its API implementation. The manifest exposes only the listed service workflow tools: `openai_list_image_models`, `openai_generate_image`, `openai_edit_image`, `openai_get_task`.
+The local profile calls `api.acedata.cloud`; service inputs and the token go to Ace Data Cloud. Chat, audio, embeddings, DALL-E and Nano Banana are excluded by the profile itself. No credentials are included in the package. It reuses [OpenAIMCP](https://github.com/AceDataCloud/OpenAIMCP) and does not copy its API implementation. The manifest exposes only the listed service workflow tools: `gpt_image_list_models`, `gpt_image_generate`, `gpt_image_edit`, `gpt_image_get_task`, `gpt_image_list_tasks`.
 
 [Source](https://github.com/AceDataCloud/GPTImageKimiCode) · [Issues](https://github.com/AceDataCloud/GPTImageKimiCode/issues) · dev@acedata.cloud · [MIT](LICENSE)

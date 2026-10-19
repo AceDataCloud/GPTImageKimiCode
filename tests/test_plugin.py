@@ -11,11 +11,13 @@ class PluginContract(unittest.TestCase):
         self.assertEqual(m['name'], 'gpt-image-by-ace')
         self.assertEqual(list(m['mcpServers']), ['gpt-image'])
         server = m['mcpServers']['gpt-image']
-        self.assertEqual(server['transport'], 'http')
-        self.assertEqual(server['url'], 'https://openai.mcp.acedata.cloud/mcp')
-        self.assertEqual(server['bearerTokenEnvVar'], 'ACEDATACLOUD_API_TOKEN')
+        self.assertEqual(server['transport'], 'stdio')
+        self.assertEqual(server['command'], 'uvx')
+        self.assertEqual(server['args'], ['--from', 'mcp-openai-pro==2026.10.19.2', 'mcp-openai-pro', '--profile', 'gpt-image'])
+        self.assertNotIn('url', server)
+        self.assertNotIn('env', server)  # inherit user process env, never bundle a key
         self.assertNotIn('headers', server)
-        self.assertEqual(server['enabledTools'], ['openai_list_image_models', 'openai_generate_image', 'openai_edit_image', 'openai_get_task'])
+        self.assertEqual(server['enabledTools'], ['gpt_image_generate', 'gpt_image_edit', 'gpt_image_get_task', 'gpt_image_list_tasks', 'gpt_image_list_models'])
         self.assertTrue((ROOT / m['skills'] / 'gpt-image-ace' / 'SKILL.md').is_file())
         self.assertFalse(any(k in m for k in ['tools','apps','inject','configFile','hooks']))
 
@@ -23,7 +25,7 @@ class PluginContract(unittest.TestCase):
         c = json.loads((ROOT / 'docs/marketplace-candidate.json').read_text())
         self.assertEqual(len(c['plugins']), 1)
         self.assertNotIn('tier', c['plugins'][0])
-        self.assertIn('/tree/codex/native-kimi-plugin-20261018', c['plugins'][0]['source'])
+        self.assertEqual(c['plugins'][0]['source'], 'https://github.com/AceDataCloud/GPTImageKimiCode/releases/tag/v0.1.0')
 
     def test_onboarding_links_and_assets(self):
         m = json.loads((ROOT / 'kimi.plugin.json').read_text())

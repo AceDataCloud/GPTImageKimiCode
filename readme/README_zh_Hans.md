@@ -1,16 +1,16 @@
 # Kimi Code 的 GPT Image by Ace Data Cloud 插件
 
-独立安装GPT Image图像服务，不改变聊天模型。由 **Ace Data Cloud** 提供，非GPT Image或Moonshot官方产品。尚未进入Kimi官方/精选目录；以下安装针对待审分支。
+独立安装GPT Image图像服务，不改变聊天模型。由 **Ace Data Cloud** 提供，非GPT Image或Moonshot官方产品。独立发布v0.1.0；尚未进入Kimi官方/精选目录。
 
 ## 1. 在Kimi安装
 
-在Kimi Code 2.2.0或更新版本的终端输入：
+需要Kimi Code 2.2.0或更新版本、Python 3.10+和uv（uvx在PATH）。在Kimi终端输入：
 
 ```text
-/plugins install https://github.com/AceDataCloud/GPTImageKimiCode/tree/codex/native-kimi-plugin-20261018
+/plugins install https://github.com/AceDataCloud/GPTImageKimiCode/releases/tag/v0.1.0
 ```
 
-查看源码和第三方信任提示后自行选择Trust and install；随后`/reload`或`/new`。这不是官方上架证明。
+此命令安装固定v0.1.0发行版。查看源码和第三方信任提示后自行选择Trust and install；随后`/reload`或`/new`。独立发行不等于Kimi官方上架。
 
 ## 2. 注册并获取Token
 
@@ -32,14 +32,14 @@ export ACEDATACLOUD_API_TOKEN
 kimi
 ```
 
-PowerShell 7.1+使用`$env:ACEDATACLOUD_API_TOKEN = Read-Host -MaskInput`后运行`kimi`。此变量由原生manifest的`bearerTokenEnvVar`读取，不能写在聊天或仓库中。此路径不进行OAuth登录。
+PowerShell 7.1+使用`$env:ACEDATACLOUD_API_TOKEN = Read-Host -MaskInput`后运行`kimi`。本地stdio子进程继承此变量；manifest固定`mcp-openai-pro==2026.10.19.2 --profile gpt-image`，不包含真实Key，不能写在聊天或仓库中。此路径不进行OAuth登录。
 
 ## 4. 首用与同ID查询
 
 先`/gpt-image-by-ace:check`；只列模型，不调用媒体生成。
 
-已有任务直接`/gpt-image-by-ace:status 原任务ID`。新请求用`/gpt-image-by-ace:create 需求`准备参数，核对模型、价格和具体费用授权后才提交一次。保存返回task_id；pending时只查同一ID，不重新生成。GPT Image使用openai_get_task的id参数；finished_at不为空仍须检查结果有无错误。
+已有任务直接`/gpt-image-by-ace:status 原任务ID`。新请求用`/gpt-image-by-ace:create 需求`准备参数，核对模型、价格和具体费用授权后才提交一次。保存返回task_id；pending时只查同一ID，不重新生成。GPT Image使用gpt_image_get_task的id参数；finished_at不为空仍须检查结果有无错误。
 
 401/403检查Key和权限，429等待降并发，失败/超时先查旧任务。不要自动付费重试或擅自替换模型。素材调用和编排LLM可能分别计费；安装本身不代表免费生成。本仓不声称已完成真实媒体、终态账单或营收验收。
 
-现有托管端点`https://openai.mcp.acedata.cloud/mcp`，复用[OpenAIMCP](https://github.com/AceDataCloud/OpenAIMCP)，不复制服务实现。详见[英文完整指南](../README.md)、[来源](../assets/tutorial/sources.json)与[服务文档](https://platform.acedata.cloud/documents/openai-images-generations?utm_source=github&utm_medium=referral&utm_campaign=evergreen&utm_content=gpt_image_kimi_readme_docs_zh)。
+使用本地stdio的GPT Image独立五工具profile，不连接通用OpenAI托管端点。该profile排除聊天、音频、embedding、DALL-E和Nano Banana，复用[OpenAIMCP](https://github.com/AceDataCloud/OpenAIMCP)，不复制服务实现。详见[英文完整指南](../README.md)、[来源](../assets/tutorial/sources.json)与[服务文档](https://platform.acedata.cloud/documents/openai-images-generations?utm_source=github&utm_medium=referral&utm_campaign=evergreen&utm_content=gpt_image_kimi_readme_docs_zh)。
