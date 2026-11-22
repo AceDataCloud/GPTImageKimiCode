@@ -43,6 +43,6 @@
     "shortDescription": "GPT Image-only tools with explicit model selection",
     "longDescription": "Independent GPT Image integration maintained by Ace Data Cloud. Bring your own Ace API Token. Generation and editing may incur charges; query an existing task without resubmitting it. Not an official GPT Image or Moonshot integration.",
     "developerName": "Ace Data Cloud",
-    "websiteURL": "https://platform.acedata.cloud/console/applications?utm_source=github&utm_medium=referral&utm_campaign=evergreen&utm_content=gpt_image_kimi_readme_key"
+    "websiteURL": "https://platform.acedata.cloud/console/applications?utm_source=github&utm_medium=referral&utm_campaign=evergreen"
   }
 }
